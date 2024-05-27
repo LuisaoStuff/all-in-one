@@ -8,3 +8,5 @@
 /manual-install/docker-compose.yml
 /manual-install/compose.yaml
 /manual-install/.env
+nextcloud-aio-helm-chart/templates/cloudflare-tls.yaml
+nextcloud-aio-helm-chart/values-pro.yaml
