@@ -74,6 +74,8 @@ ALPINE_IMAGE_ORG:          # Setting this allows you to change the image's org n
 
 ingress:
   enabled: false
+  letsencrypt:
+    mail: mail@example.com
 #  hosts:
 #  - host: nextcloud.example.com
 #  - host: nextcloud.example.es
