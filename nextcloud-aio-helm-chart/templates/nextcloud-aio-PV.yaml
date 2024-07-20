@@ -1,0 +1,34 @@
+{{ $common := .Values }}
+{{ range $name, $size := .Values.storage.sizes }}
+{{ $name := $name | snakecase | replace "_" "-" }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-aio-{{ $name }}
+  namespace: {{ $common.NAMESPACE | quote }}
+spec:
+  capacity:
+    storage: {{ $size }}
+  accessModes:
+  {{- if eq $name "nextcloud" }}
+  - ReadWriteMany
+  {{- else }}
+  - ReadWriteOnce
+  {{- end }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ $common.storage.className }}
+  claimRef:
+    name: nextcloud-aio-{{ $name }}
+    namespace: {{ $common.NAMESPACE | quote }}
+  local:
+    path: {{ $common.storage.basePath }}/{{ $name }}/
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ $common.storage.hostname }}
+{{- end }}

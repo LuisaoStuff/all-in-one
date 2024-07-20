@@ -5,14 +5,24 @@ metadata:
   namespace: "{{ .Values.NAMESPACE }}"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10g"
+    nginx.org/client-max-body-size: "10g"
+    cert-manager.io/issuer: letsencrypt-prod
+    cert-manager.io/issue-temporary-certificate: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
+  ingressClassName: nginx
   tls:
+  {{- range .Values.ingress.hosts }}
+  {{- $name := split "." .host }}
     - hosts:
-        - {{ .Values.ingress.host }}
-      secretName: cloudflare-tls
+        - {{ .host }}
+      secretName: letsencrypt-{{ $name._1 }}-prod
+  {{- end }}
   rules:
-    - host: {{ .Values.ingress.host }}
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
       http:
         paths:
           - path: /
@@ -21,4 +31,5 @@ spec:
               service:
                 name: nextcloud-aio-apache
                 port:
-                  number: {{ .Values.APACHE_PORT }}
+                  number: {{ $.Values.APACHE_PORT }}
+  {{- end }}

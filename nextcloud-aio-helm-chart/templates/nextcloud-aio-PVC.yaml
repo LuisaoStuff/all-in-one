@@ -1,0 +1,26 @@
+{{ $common := .Values }}
+{{ range $name, $size := .Values.storage.sizes }}
+{{ $name := $name | snakecase | replace "_" "-" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: nextcloud-aio-{{ $name }}
+  name: nextcloud-aio-{{ $name }}
+  namespace: {{ $common.NAMESPACE | quote }}
+spec:
+  {{- if $common.storage.className }}
+  storageClassName: {{ $common.storage.className }}
+  {{- end }}
+  accessModes:
+  {{- if eq $name "nextcloud"  }}
+  - ReadWriteMany
+  {{- else }}
+  - ReadWriteOnce
+  {{- end }}
+  volumeName: nextcloud-aio-{{ $name }}
+  resources:
+    requests:
+      storage: {{ $size }}
+{{- end }}

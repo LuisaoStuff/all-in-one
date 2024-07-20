@@ -36,8 +36,8 @@ spec:
             - "-rf"
             - "/nextcloud-aio-nextcloud/lost+found"
           volumeMounts:
-            - name: nextcloud-aio-nextcloud-trusted-cacerts
-              mountPath: /nextcloud-aio-nextcloud-trusted-cacerts
+            - name: nextcloud-aio-nextcloud-trusted-ca-certs
+              mountPath: /nextcloud-aio-nextcloud-trusted-ca-certs
             - name: nextcloud-aio-nextcloud
               mountPath: /nextcloud-aio-nextcloud
         - name: init-volumes
@@ -50,10 +50,10 @@ spec:
             - chmod
             - "777"
             - /nextcloud-aio-nextcloud
-            - /nextcloud-aio-nextcloud-trusted-cacerts
+            - /nextcloud-aio-nextcloud-trusted-ca-certs
           volumeMounts:
-            - name: nextcloud-aio-nextcloud-trusted-cacerts
-              mountPath: /nextcloud-aio-nextcloud-trusted-cacerts
+            - name: nextcloud-aio-nextcloud-trusted-ca-certs
+              mountPath: /nextcloud-aio-nextcloud-trusted-ca-certs
             - name: nextcloud-aio-nextcloud
               mountPath: /nextcloud-aio-nextcloud
       containers:
@@ -187,7 +187,7 @@ spec:
             - mountPath: /mnt/ncdata
               name: nextcloud-aio-nextcloud-data
             - mountPath: /usr/local/share/ca-certificates
-              name: nextcloud-aio-nextcloud-trusted-cacerts
+              name: nextcloud-aio-nextcloud-trusted-ca-certs
               readOnly: true
       terminationGracePeriodSeconds: 600
       volumes:
@@ -197,6 +197,9 @@ spec:
         - name: nextcloud-aio-nextcloud-data
           persistentVolumeClaim:
             claimName: nextcloud-aio-nextcloud-data
-        - name: nextcloud-aio-nextcloud-trusted-cacerts
+        - name: nextcloud-aio-nextcloud-trusted-ca-certs
           persistentVolumeClaim:
-            claimName: nextcloud-aio-nextcloud-trusted-cacerts
+            claimName: nextcloud-aio-nextcloud-trusted-ca-certs
+        - name: protonmail-data
+          persistentVolumeClaim: 
+            claimName: nextcloud-aio-protonmail-bridge
