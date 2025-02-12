@@ -46,6 +46,13 @@ spec:
               value: "{{ .Values.TIMEZONE }}"
           image: "{{ .Values.IMAGE_MIRROR_PREFIX }}{{ .Values.NEXTCLOUD_IMAGE_ORG }}/aio-redis:20240502_104630-latest"
           name: nextcloud-aio-redis
+          resources:
+            requests:
+              cpu: 250m
+              memory: 500M
+            limits:
+              cpu: 500m
+              memory: 1G
           ports:
             - containerPort: 6379
               protocol: TCP

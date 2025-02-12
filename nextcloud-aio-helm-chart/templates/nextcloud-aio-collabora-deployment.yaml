@@ -46,6 +46,7 @@ spec:
             capabilities:
               add:
                 - MKNOD
+                - SYS_ADMIN
               drop:
                 - NET_RAW
 {{- end }}

@@ -67,6 +67,13 @@ spec:
               value: "{{ .Values.TIMEZONE }}"
           image: "{{ .Values.IMAGE_MIRROR_PREFIX }}{{ .Values.NEXTCLOUD_IMAGE_ORG }}/aio-apache:20240502_104630-latest"
           name: nextcloud-aio-apache
+          resources:
+            requests:
+              cpu: 500m
+              memory: 250M
+            limits:
+              cpu: 750m
+              memory: 500M
           ports:
             - containerPort: {{ .Values.APACHE_PORT }}
               protocol: TCP

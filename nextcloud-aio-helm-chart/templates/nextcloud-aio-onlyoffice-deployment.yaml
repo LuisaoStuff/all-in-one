@@ -51,6 +51,13 @@ spec:
               value: "{{ .Values.TIMEZONE }}"
           image: "{{ .Values.IMAGE_MIRROR_PREFIX }}{{ .Values.NEXTCLOUD_IMAGE_ORG }}/aio-onlyoffice:20240502_104630-latest"
           name: nextcloud-aio-onlyoffice
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100M
+            limits:
+              cpu: 250m
+              memory: 250M
           ports:
             - containerPort: 80
               protocol: TCP

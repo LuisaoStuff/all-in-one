@@ -172,6 +172,13 @@ spec:
               value: "{{ .Values.UPDATE_NEXTCLOUD_APPS }}"
           image: "{{ .Values.IMAGE_MIRROR_PREFIX }}{{ .Values.NEXTCLOUD_IMAGE_ORG }}/aio-nextcloud:20240502_104630-latest"
           name: nextcloud-aio-nextcloud
+          resources:
+            requests:
+              cpu: 1
+              memory: 500M
+            limits:
+              cpu: 1500m
+              memory: 2G
           ports:
             - containerPort: 9000
               protocol: TCP
@@ -200,6 +207,3 @@ spec:
         - name: nextcloud-aio-nextcloud-trusted-ca-certs
           persistentVolumeClaim:
             claimName: nextcloud-aio-nextcloud-trusted-ca-certs
-        - name: protonmail-data
-          persistentVolumeClaim: 
-            claimName: nextcloud-aio-protonmail-bridge

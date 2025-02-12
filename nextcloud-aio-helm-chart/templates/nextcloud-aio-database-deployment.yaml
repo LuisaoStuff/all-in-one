@@ -73,6 +73,13 @@ spec:
               value: "{{ .Values.TIMEZONE }}"
           image: "{{ .Values.IMAGE_MIRROR_PREFIX }}{{ .Values.NEXTCLOUD_IMAGE_ORG }}/aio-postgresql:20240502_104630-latest"
           name: nextcloud-aio-database
+          resources:
+            requests:
+              cpu: 500m
+              memory: 500M
+            limits:
+              cpu: 750m
+              memory: 1500M
           ports:
             - containerPort: 5432
               protocol: TCP
